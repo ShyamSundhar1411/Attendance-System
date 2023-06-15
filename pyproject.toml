@@ -1,0 +1,22 @@
+[tool.poetry]
+name = "attendancesystem"
+version = "0.1.0"
+description = ""
+authors = ["ShyamSundhar1411 <clashwithchiefrpjyt@gmail.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+Flask = "^2.3.2"
+Pillow = "^9.5.0"
+flask-marshmallow = "^0.15.0"
+Flask-SQLAlchemy = "^3.0.3"
+
+[tool.poetry.dev-dependencies]
+Flask = "^2.3.2"
+Pillow = "^9.5.0"
+flask-marshmallow = "^0.15.0"
+Flask-SQLAlchemy = "^3.0.3"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
