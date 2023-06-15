@@ -45,6 +45,34 @@ async = ["asgiref (>=3.2)"]
 dotenv = ["python-dotenv"]
 
 [[package]]
+name = "flask-admin"
+version = "1.6.1"
+description = "Simple and extensible admin interface framework for Flask"
+category = "main"
+optional = false
+python-versions = ">=3.6"
+
+[package.dependencies]
+Flask = ">=0.7"
+wtforms = "*"
+
+[package.extras]
+aws = ["boto"]
+azure = ["azure-storage-blob"]
+
+[[package]]
+name = "flask-login"
+version = "0.6.2"
+description = "User authentication and session management for Flask."
+category = "main"
+optional = false
+python-versions = ">=3.7"
+
+[package.dependencies]
+Flask = ">=1.0.4"
+Werkzeug = ">=1.0.1"
+
+[[package]]
 name = "flask-marshmallow"
 version = "0.15.0"
 description = "Flask + marshmallow for beautiful APIs"
@@ -212,10 +240,24 @@ MarkupSafe = ">=2.1.1"
 [package.extras]
 watchdog = ["watchdog (>=2.3)"]
 
+[[package]]
+name = "wtforms"
+version = "3.0.1"
+description = "Form validation and rendering for Python web development."
+category = "main"
+optional = false
+python-versions = ">=3.7"
+
+[package.dependencies]
+MarkupSafe = "*"
+
+[package.extras]
+email = ["email-validator"]
+
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.10"
-content-hash = "3420ff2947cea7c9fefdc26d1ae47727ee365213813b8a105c7b35b59e3a90a6"
+content-hash = "752f1e5d6bf2d24785376fff39a2128efc94833673240e8c83269810e0fca752"
 
 [metadata.files]
 blinker = []
@@ -225,6 +267,8 @@ click = [
 ]
 colorama = []
 flask = []
+flask-admin = []
+flask-login = []
 flask-marshmallow = []
 flask-sqlalchemy = []
 greenlet = []
@@ -240,3 +284,4 @@ pillow = []
 sqlalchemy = []
 typing-extensions = []
 werkzeug = []
+wtforms = []
