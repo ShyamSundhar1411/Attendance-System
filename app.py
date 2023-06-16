@@ -31,8 +31,6 @@ class User(db.Model, UserMixin):
     faculty_registered = db.Column(db.String(1000),nullable = False)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     admin = db.Column(db.Boolean, default=False)
-    def is_authenticated(self):
-        return True  # Return True if the user is authenticated, or False otherwise
     def is_admin(self):
         return self.admin
     def get_id(self):
