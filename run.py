@@ -1,5 +1,5 @@
-from app import app,db
-from app.models import *
+from backend import app,db
+from backend.models import *
 from flask_login import LoginManager, current_user,UserMixin,login_user,logout_user,login_required
 from flask_admin.contrib.sqla import ModelView
 from flask_admin import Admin

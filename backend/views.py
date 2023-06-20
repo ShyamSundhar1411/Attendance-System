@@ -1,6 +1,5 @@
-from backend import apbackendb
-from backendodels import *
-from app.forms import *
+from backend import app,db
+from backend.models import *
 from flask_login import LoginManager, current_user,UserMixin,login_user,logout_user,login_required
 
 

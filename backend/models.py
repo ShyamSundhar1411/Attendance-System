@@ -1,6 +1,6 @@
 import datetime
-from app import db
-from app.choices import *
+from backend import db
+from backend.choices import *
 from sqlalchemy_utils import ChoiceType
 from flask_login import UserMixin
 
