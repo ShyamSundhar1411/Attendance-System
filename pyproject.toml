@@ -13,6 +13,7 @@ Flask-SQLAlchemy = "^3.0.3"
 Flask-Admin = "^1.6.1"
 Flask-Login = "^0.6.2"
 WTForms = "^3.0.1"
+Flask-Migrate = "^4.0.4"
 
 [tool.poetry.dev-dependencies]
 Flask = "^2.3.2"
