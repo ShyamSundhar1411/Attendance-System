@@ -2,24 +2,18 @@
 name = "attendancesystem"
 version = "0.1.0"
 description = ""
-authors = ["ShyamSundhar1411 <clashwithchiefrpjyt@gmail.com>"]
+authors = ["Your Name <you@example.com>"]
 
 [tool.poetry.dependencies]
 python = "^3.10"
-Flask = "^2.3.2"
-Pillow = "^9.5.0"
-flask-marshmallow = "^0.15.0"
-Flask-SQLAlchemy = "^3.0.3"
-Flask-Admin = "^1.6.1"
-Flask-Login = "^0.6.2"
-WTForms = "^3.0.1"
-Flask-Migrate = "^4.0.4"
+flask = "^2.3.2"
+flask-sqlalchemy = "^3.0.5"
+flask-migrate = "^4.0.4"
+sqlalchemy-utils = "^0.41.1"
+flask-admin = "^1.6.1"
+flask-login = "^0.6.2"
 
 [tool.poetry.dev-dependencies]
-Flask = "^2.3.2"
-Pillow = "^9.5.0"
-flask-marshmallow = "^0.15.0"
-Flask-SQLAlchemy = "^3.0.3"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]

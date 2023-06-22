@@ -14,4 +14,4 @@ db = SQLAlchemy()
 db.init_app(app)
 migrate = Migrate(app,db)
 
-from backend import models,forms,views
+from backend import models,views
