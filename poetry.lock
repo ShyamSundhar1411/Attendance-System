@@ -97,18 +97,23 @@ aws = ["boto"]
 azure = ["azure-storage-blob"]
 
 [[package]]
-name = "flask-jwt"
-version = "0.3.2"
-description = "JWT token authentication for Flask apps"
+name = "flask-jwt-extended"
+version = "4.5.2"
+description = "Extended JWT integration with Flask"
 optional = false
-python-versions = "*"
+python-versions = ">=3.7,<4"
 files = [
-    {file = "Flask-JWT-0.3.2.tar.gz", hash = "sha256:49c0672fbde0f1cd3374bd834918d28956e3c521c7e00089cdc5380d323bd0ad"},
+    {file = "Flask-JWT-Extended-4.5.2.tar.gz", hash = "sha256:ba56245ba43b71c8ae936784b867625dce8b9956faeedec2953222e57942fb0b"},
+    {file = "Flask_JWT_Extended-4.5.2-py2.py3-none-any.whl", hash = "sha256:e0ef23d8c863746bd141046167073699e1a7b03c97169cbba70f05b8d9cd6b9e"},
 ]
 
 [package.dependencies]
-Flask = ">=0.9"
-PyJWT = ">=1.4.0,<1.5.0"
+Flask = ">=2.0,<3.0"
+PyJWT = ">=2.0,<3.0"
+Werkzeug = ">=0.14"
+
+[package.extras]
+asymmetric-crypto = ["cryptography (>=3.3.1)"]
 
 [[package]]
 name = "flask-login"
@@ -412,19 +417,20 @@ files = [
 
 [[package]]
 name = "pyjwt"
-version = "1.4.2"
+version = "2.7.0"
 description = "JSON Web Token implementation in Python"
 optional = false
-python-versions = "*"
+python-versions = ">=3.7"
 files = [
-    {file = "PyJWT-1.4.2-py2.py3-none-any.whl", hash = "sha256:99fe612dbe5f41e07124d9002c118c14f3ee703574ffa9779fee78135b8b94b6"},
-    {file = "PyJWT-1.4.2.tar.gz", hash = "sha256:87a831b7a3bfa8351511961469ed0462a769724d4da48a501cb8c96d1e17f570"},
+    {file = "PyJWT-2.7.0-py3-none-any.whl", hash = "sha256:ba2b425b15ad5ef12f200dc67dd56af4e26de2331f965c5439994dad075876e1"},
+    {file = "PyJWT-2.7.0.tar.gz", hash = "sha256:bd6ca4a3c4285c1a2d4349e5a035fdf8fb94e04ccd0fcbe6ba289dae9cc3e074"},
 ]
 
 [package.extras]
-crypto = ["cryptography"]
-flake8 = ["flake8", "flake8-import-order", "pep8-naming"]
-test = ["pytest (==2.7.3)", "pytest-cov", "pytest-runner"]
+crypto = ["cryptography (>=3.4.0)"]
+dev = ["coverage[toml] (==5.0.4)", "cryptography (>=3.4.0)", "pre-commit", "pytest (>=6.0.0,<7.0.0)", "sphinx (>=4.5.0,<5.0.0)", "sphinx-rtd-theme", "zope.interface"]
+docs = ["sphinx (>=4.5.0,<5.0.0)", "sphinx-rtd-theme", "zope.interface"]
+tests = ["coverage[toml] (==5.0.4)", "pytest (>=6.0.0,<7.0.0)"]
 
 [[package]]
 name = "sqlalchemy"
@@ -580,4 +586,4 @@ email = ["email-validator"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "3c309b1fd1a9aa1d525b37f2caa43edcd605899cd3b72d985896f19ff658743f"
+content-hash = "5f08b7f8d47cd25dc6b84673c2ee72085a08a90d5978e0c0b1b50e75c8a76511"
