@@ -15,9 +15,16 @@ login_manager.login_view = 'login'
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
-
+@app.route('/',methods = ['GET'])
+def home():
+    routes = [
+        '/get/users/all/',
+        '/get/message/all/',
+        '/get/attendances/all/'
+        '/login/'
+    ]
+    return jsonify(routes)
 @app.route('/get/users/all/',methods = ['GET'])
-
 def get_users():
     users = NFCUser.query.all()
     return nfc_user_schema.jsonify(users)
@@ -29,7 +36,7 @@ def get_meetings():
 def get_attendances():
     attendances = Attendance.query.all()
     return attendance_schema.jsonify(attendances)
-@app.route('/login',methods = ['GET','POST'])
+@app.route('/login/',methods = ['GET','POST'])
 def login():
     username = request.json.get('username')
     password = request.json.get('password')
