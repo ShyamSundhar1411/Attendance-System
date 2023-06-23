@@ -18,11 +18,18 @@ def login():
     user = User.query.filter_by(username='Shyam').first()
     login_user(user)
     return 'Logged in successfully!'
-@app.route('/',methods = ['GET'])
-def home():
+@app.route('/get/users/all/',methods = ['GET'])
+def get_users():
     users = User.query.all()
-    data = user_schema.dump(users)
-    return jsonify(data)
+    return user_schema.jsonify(users)
+@app.route('/get/meetings/all/',methods = ['GET'])
+def get_meetings():
+    meetings = Meeting.query.all()
+    return meeting_schema.jsonify(meetings)
+@app.route('/get/attendances/all/',methods = ['GET'])
+def get_attendances():
+    attendances = Attendance.query.all()
+    return attendance_schema.jsonify(attendances)
 @app.route('/create/db')
 def create_db():    
     db.create_all()
