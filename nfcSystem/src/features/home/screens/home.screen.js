@@ -8,27 +8,14 @@ import {
   View,
 } from "react-native";
 import { Text } from "../../../components/typography/text_component";
-import NfcManager, { NfcEvents } from "react-native-nfc-manager";
 import styled from "styled-components/native";
+import { SearchBarComponent } from "../components/search_component";
 
 export const HomeScreen = () => {
-  const handleTagDiscovery = async () => {
-    console.log("NFC card detected");
-  };
-  useEffect(() => {
-    NfcManager.start();
-    NfcManager.setEventListener(NfcEvents.DiscoverTag, handleTagDiscovery);
-    return () => {
-      NfcManager.setEventListener(NfcEvents.DiscoverTag, null);
-      NfcManager.cancelTechnologyRequest().catch(() => {});
-      NfcManager.unregisterTagEvent().catch(() => {});
-    };
-  }, []);
-
   return (
     <>
       <SafeAreaView style={styles.androidSafeArea}>
-        <Text>Scan the Tag</Text>
+        <SearchBarComponent />
       </SafeAreaView>
     </>
   );
