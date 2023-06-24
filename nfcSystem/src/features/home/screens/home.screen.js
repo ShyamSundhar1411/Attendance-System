@@ -1,17 +1,7 @@
 import React, { useEffect } from "react";
-import {
-  StyleSheet,
-  SafeAreaView,
-  Platform,
-  StatusBar,
-  TouchableOpacity,
-  View,
-} from "react-native";
-import { Text } from "../../../components/typography/text_component";
-import styled from "styled-components/native";
-import { Card, Button, Avatar } from "react-native-paper";
+import { StyleSheet, SafeAreaView, Platform, StatusBar } from "react-native";
 import { SearchBarComponent } from "../components/search_component";
-import { UserCard } from "../components/user_detail_card";
+import { UserCard } from "../components/user.detail.card";
 export const HomeScreen = () => {
   return (
     <>
