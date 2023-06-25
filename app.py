@@ -21,4 +21,4 @@ if __name__ == '__main__':
     admin.add_view(MyModelView(NFCUser,db.session))
     admin.add_view(MyModelView(Meeting, db.session))
     admin.add_view(MyAttendanceModelView(Attendance, db.session))
-    app.run(debug = True)
+    app.run(host = "192.168.56.1",port = 3000,debug = True)

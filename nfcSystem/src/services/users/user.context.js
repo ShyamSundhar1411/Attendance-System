@@ -16,8 +16,11 @@ export const NFCUserContextProvider = ({ children }) => {
     try {
       setIsLoading(true);
       setUsers([]);
-      const response = await axios.get("http://127.0.0.1:5000/get/users/all");
+      const response = await axios.get(
+        "http://192.168.56.1:3000/get/users/all"
+      );
       setUsers(response.data);
+      console.log(response.data);
       setIsLoading(false);
     } catch (err) {
       setError(err);
