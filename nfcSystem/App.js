@@ -8,7 +8,7 @@ import {
   Oswald_400Regular,
 } from "@expo-google-fonts/oswald";
 import { useFonts as useLato, Lato_400Regular } from "@expo-google-fonts/lato";
-
+import { NFCUserContextProvider } from "./src/services/users/user.context";
 export default function App() {
   let [oswaldLoaded] = useOswald({
     Oswald_400Regular,
@@ -22,7 +22,9 @@ export default function App() {
   return (
     <>
       <ThemeProvider theme={theme}>
-        <HomeScreen />
+        <NFCUserContextProvider>
+          <HomeScreen />
+        </NFCUserContextProvider>
       </ThemeProvider>
       <ExpoStatusBar style="auto" />
     </>
