@@ -7,6 +7,7 @@ import {
   useFonts as useOswald,
   Oswald_400Regular,
 } from "@expo-google-fonts/oswald";
+import { Navigator } from "./src/infrastructure/navigation/app.navigator";
 import { useFonts as useLato, Lato_400Regular } from "@expo-google-fonts/lato";
 import { NFCUserContextProvider } from "./src/services/users/user.context";
 export default function App() {
@@ -23,7 +24,7 @@ export default function App() {
     <>
       <ThemeProvider theme={theme}>
         <NFCUserContextProvider>
-          <HomeScreen />
+          <Navigator />
         </NFCUserContextProvider>
       </ThemeProvider>
       <ExpoStatusBar style="auto" />

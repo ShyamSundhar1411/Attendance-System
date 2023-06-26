@@ -11,6 +11,9 @@
   "dependencies": {
     "@expo-google-fonts/lato": "^0.2.3",
     "@expo-google-fonts/oswald": "^0.2.3",
+    "@expo/vector-icons": "^13.0.0",
+    "@react-navigation/bottom-tabs": "^6.5.8",
+    "@react-navigation/native": "^6.1.7",
     "axios": "^1.4.0",
     "expo": "~48.0.18",
     "expo-splash-screen": "~0.18.2",

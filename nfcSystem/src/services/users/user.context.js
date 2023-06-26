@@ -20,7 +20,6 @@ export const NFCUserContextProvider = ({ children }) => {
         "http://192.168.56.1:3000/get/users/all"
       );
       setUsers(response.data);
-      console.log(response.data);
       setIsLoading(false);
     } catch (err) {
       setError(err);
