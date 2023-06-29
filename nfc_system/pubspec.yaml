@@ -38,6 +38,9 @@ dependencies:
   nfc_manager: ^3.3.0
   curved_navigation_bar: ^1.0.3
   styled_widget: ^0.4.1
+  http: ^1.1.0
+  provider: ^6.0.5
+  card_loading: ^0.3.0
 
 dev_dependencies:
   flutter_test:

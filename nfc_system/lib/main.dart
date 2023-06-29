@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:nfc_system/providers/NFCUserProvider.dart';
+import 'package:provider/provider.dart';
 import './screens/MainScreen.dart';
 
 void main() {
@@ -8,9 +10,13 @@ void main() {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: "NFC Attendance System",
-      home: MainScreen(),
-    );
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (ctx)=>NFCUserProvider()),
+      ],
+      child:MaterialApp(
+        title: "NFC Attendance System",
+        home: MainScreen(),
+    ));
   }
 }
