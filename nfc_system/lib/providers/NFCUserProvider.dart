@@ -12,7 +12,7 @@ class NFCUserProvider with ChangeNotifier {
   }
 
   Future<void> fetchUsers() async {
-    final url = 'http://10.0.2.2:5000/get/users/all/';
+    final url = 'https://mic-attendance-system.onrender.com//get/users/all/';
     final response = await http.get(Uri.parse(url));
     if (response.statusCode == 200) {
       final List<dynamic> data = json.decode(response.body);
