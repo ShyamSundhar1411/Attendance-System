@@ -18,6 +18,7 @@ class _SearchUserScreenState extends State<SearchUserScreen> {
     super.initState();
     Provider.of<NFCUserProvider>(context, listen: false).fetchUsers();
   }
+
   @override
   Widget build(BuildContext context) {
     final nfcUserContainer = Provider.of<NFCUserProvider>(context);
@@ -32,11 +33,20 @@ class _SearchUserScreenState extends State<SearchUserScreen> {
           Expanded(child:
               Consumer<NFCUserProvider>(builder: (context, nfcUserProvider, _) {
             if (nfcUserProvider.getNFCUsers.isEmpty) {
-              return const CardLoading(
+              return const Column(children: [CardLoading(
                 height: 100,
                 borderRadius: BorderRadius.all(Radius.circular(10)),
-                margin: EdgeInsets.only(bottom: 10),
-              );
+                margin: EdgeInsets.all(10),
+                ),
+                CardLoading(
+                height: 100,
+                borderRadius: BorderRadius.all(Radius.circular(10)),
+                margin: EdgeInsets.all(10),),
+                CardLoading(
+                height: 100,
+                borderRadius: BorderRadius.all(Radius.circular(10)),
+                margin: EdgeInsets.all(10),)
+                ]);
             } else {
               return ListView.builder(
                 itemCount: nfcUserProvider.getNFCUsers.length,
@@ -50,7 +60,6 @@ class _SearchUserScreenState extends State<SearchUserScreen> {
               );
             }
           }))
-        ])
-    );
+        ]));
   }
 }
