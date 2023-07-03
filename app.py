@@ -13,12 +13,13 @@ class MyModelView(ModelView):
     
 class MyAttendanceModelView(ModelView):
     column_list = ['meeting', 'user', 'status', 'date']
-
+admin = Admin(app)
+admin._menu = admin._menu[1:]
+admin.add_view(MyModelView(User, db.session))
+admin.add_view(MyModelView(NFCUser,db.session))
+admin.add_view(MyModelView(Meeting, db.session))
+admin.add_view(MyAttendanceModelView(Attendance, db.session))
+    
 if __name__ == '__main__':
-    admin = Admin(app)
-    admin._menu = admin._menu[1:]
-    admin.add_view(MyModelView(User, db.session))
-    admin.add_view(MyModelView(NFCUser,db.session))
-    admin.add_view(MyModelView(Meeting, db.session))
-    admin.add_view(MyAttendanceModelView(Attendance, db.session))
+   
     app.run()
