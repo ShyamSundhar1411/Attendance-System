@@ -19,6 +19,7 @@ def load_user(user_id):
 def home():
     routes = [
         '/get/users/all/',
+        '/get/user/<string:serial>/',
         '/get/message/all/',
         '/get/attendances/all/'
         '/login/'
@@ -28,6 +29,10 @@ def home():
 def get_users():
     users = NFCUser.query.all()
     return nfc_user_schema.jsonify(users)
+@app.route('/get/user/<string:serial>/',methods = ['GET'])
+def get_user_with_nfc(serial):
+    user = NFCUser.query.filter_by(nfc_serial = serial).first()
+    return nfc_user_schema.jsonify(user,many=False)
 @app.route('/get/meetings/all/',methods = ['GET'])
 def get_meetings():
     meetings = Meeting.query.all()
@@ -36,6 +41,7 @@ def get_meetings():
 def get_attendances():
     attendances = Attendance.query.all()
     return attendance_schema.jsonify(attendances)
+
 @app.route('/login/',methods = ['GET','POST'])
 def login():
     username = request.json.get('username')

@@ -12,11 +12,12 @@ class ScanScreen extends StatefulWidget {
 
 class _ScanScreenState extends State<ScanScreen> {
   ValueNotifier<dynamic> result = ValueNotifier(null);
+  String serialNumber=""; 
   void _tagRead() {
     NfcManager.instance.startSession(onDiscovered: (NfcTag tag) async {
       result.value = tag.data;
       List<int> identifier = result.value['nfca']['identifier'];
-      String serialNumber = identifier
+      serialNumber = identifier
           .map((byte) => byte.toRadixString(16).padLeft(2, '0'))
           .join(':').toUpperCase();
       print(serialNumber);
