@@ -12,7 +12,7 @@ class NFCUserProvider with ChangeNotifier {
   }
 
   Future<void> fetchUsers() async {
-    final url = 'https://mic-attendance-system.onrender.com//get/users/all/';
+    final url = 'https://mic-attendance-system.onrender.com/get/users/all/';
     final response = await http.get(Uri.parse(url));
     if (response.statusCode == 200) {
       final List<dynamic> data = json.decode(response.body);
@@ -28,6 +28,25 @@ class NFCUserProvider with ChangeNotifier {
       notifyListeners();
     } else {
       throw Exception("Failed to fetch users");
+    }
+  }
+
+  Future<NFCUser> fetchUserNFC(String serial) async {
+    final url =
+        'https://mic-attendance-system.onrender.com/get/user/${serial}/';
+    final response = await http.get(Uri.parse(url));
+    if (response.statusCode == 200) {
+      final jsonData = json.decode(response.body);
+      final user = NFCUser(
+          jsonData['id'],
+          jsonData['email'],
+          jsonData['faculty_registered'],
+          jsonData['nfc_serial'],
+          jsonData['roll_no'],
+          jsonData['username']);
+      return user;
+    } else {
+      throw Exception('Failed to fetch user');
     }
   }
 }
