@@ -11,6 +11,9 @@ class NFCUserProvider with ChangeNotifier {
     return _nfcuseritems;
   }
 
+  bool _isLoading = true;
+
+  bool get isLoading => _isLoading;
   Future<void> fetchUsers() async {
     final url = 'https://mic-attendance-system.onrender.com/get/users/all/';
     final response = await http.get(Uri.parse(url));
@@ -25,8 +28,11 @@ class NFCUserProvider with ChangeNotifier {
               userJson['roll_no'],
               userJson['username']))
           .toList();
+      _isLoading = false;
       notifyListeners();
     } else {
+      _isLoading = false;
+      notifyListeners();
       throw Exception("Failed to fetch users");
     }
   }

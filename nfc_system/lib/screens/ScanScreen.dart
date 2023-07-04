@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import '../providers/NFCUserProvider.dart';
 import '../components/circular_button.dart';
 import '../models/NFCUserModel.dart';
+import '../components/user_model.dart';
 
 class ScanScreen extends StatefulWidget {
   @override
@@ -13,7 +14,7 @@ class ScanScreen extends StatefulWidget {
 class _ScanScreenState extends State<ScanScreen> {
   ValueNotifier<dynamic> result = ValueNotifier(null);
   String serialNumber = "";
-  NFCUser? scanned_user;
+  NFCUser? scannedUser;
 
   @override
   void initState() {
@@ -24,12 +25,30 @@ class _ScanScreenState extends State<ScanScreen> {
   @override
   Widget build(BuildContext context) {
     final nfcUserContainer = Provider.of<NFCUserProvider>(context);
-    NFCUser find_user_by_nfc(String nfc) {
+    NFCUser findUserByNFC(String nfc) {
       final users = nfcUserContainer.getNFCUsers;
       return users.firstWhere((user) => user.nfcSerial == nfc);
     }
 
-    void _tagRead() {
+    void showUserModal(BuildContext context) {
+      showModalBottomSheet(
+        context: context,
+        builder: (BuildContext context) {
+          return UserModal(scannedUser!);
+        },
+      );
+    }
+
+    void updateScannedUser(String serialNumber) {
+      setState(() {
+        scannedUser = findUserByNFC(serialNumber);
+      });
+      if (scannedUser != null) {
+        showUserModal(context);
+      }
+    }
+
+    void tagRead() {
       NfcManager.instance.startSession(onDiscovered: (NfcTag tag) async {
         result.value = tag.data;
         List<int> identifier = result.value['nfca']['identifier'];
@@ -37,10 +56,7 @@ class _ScanScreenState extends State<ScanScreen> {
             .map((byte) => byte.toRadixString(16).padLeft(2, '0'))
             .join(':')
             .toUpperCase();
-        setState(() {
-          scanned_user = find_user_by_nfc(serialNumber);
-        });
-
+        updateScannedUser(serialNumber);
         NfcManager.instance.stopSession();
       });
     }
@@ -50,31 +66,31 @@ class _ScanScreenState extends State<ScanScreen> {
         title: const Text("Scan for NFC"),
       ),
       body: SafeArea(
-        child: FutureBuilder<bool>(
-          future: NfcManager.instance.isAvailable(),
-          builder: (context, ss) {
-            if (ss.hasData && ss.data == true) {
-              return Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Center(
-                    child: CircularButton(
-                      size: 120.0,
-                      icon: Icons.add,
-                      onPressed: _tagRead,
-                    ),
-                  ),
-                  if (scanned_user != null)
-                    Text(scanned_user!.userName),
-                ],
-              );
-            } else {
-              return Center(
-                child: Text('NfcManager.isAvailable(): ${ss.data}'),
-              );
-            }
-          },
-        ),
+        child: nfcUserContainer.isLoading
+            ? const Center(child: CircularProgressIndicator())
+            : FutureBuilder<bool>(
+                future: NfcManager.instance.isAvailable(),
+                builder: (context, ss) {
+                  if (ss.hasData && ss.data == true) {
+                    return Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Center(
+                          child: CircularButton(
+                            size: 120.0,
+                            icon: Icons.add,
+                            onPressed: tagRead,
+                          ),
+                        ),
+                      ],
+                    );
+                  } else {
+                    return Center(
+                      child: Text('NfcManager.isAvailable(): ${ss.data}'),
+                    );
+                  }
+                },
+              ),
       ),
     );
   }

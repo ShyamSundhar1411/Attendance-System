@@ -20,11 +20,11 @@ class _MainScreenState extends State<MainScreen> {
   ];
   @override
   Widget build(BuildContext context) {
-    final apiProvider = Provider.of<NFCUserProvider>(context);
+    final nfcContainer = Provider.of<NFCUserProvider>(context);
 
     // Fetch the API container on app startup
     WidgetsBinding.instance?.addPostFrameCallback((_) {
-      apiProvider.fetchUsers();
+      nfcContainer.fetchUsers();
     });
     
     return Scaffold(
