@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:nfc_system/components/user_card.dart';
 import 'package:provider/provider.dart';
 import 'package:card_loading/card_loading.dart';
 import '../providers/NFCUserProvider.dart';
@@ -22,6 +23,10 @@ class _SearchUserScreenState extends State<SearchUserScreen> {
   @override
   Widget build(BuildContext context) {
     final nfcUserContainer = Provider.of<NFCUserProvider>(context);
+    Future<void> _refreshData() async {
+      await nfcUserContainer.fetchUsers();
+    }
+
     return Scaffold(
         appBar: AppBar(
           title: Text(widget.title),
@@ -33,30 +38,29 @@ class _SearchUserScreenState extends State<SearchUserScreen> {
           Expanded(child:
               Consumer<NFCUserProvider>(builder: (context, nfcUserProvider, _) {
             if (nfcUserProvider.getNFCUsers.isEmpty) {
-              return const Column(children: [CardLoading(
-                height: 100,
-                borderRadius: BorderRadius.all(Radius.circular(10)),
-                margin: EdgeInsets.all(10),
-                ),
-                CardLoading(
-                height: 100,
-                borderRadius: BorderRadius.all(Radius.circular(10)),
-                margin: EdgeInsets.all(10),),
-                CardLoading(
-                height: 100,
-                borderRadius: BorderRadius.all(Radius.circular(10)),
-                margin: EdgeInsets.all(10),)
-                ]);
+              return RefreshIndicator(
+                onRefresh:_refreshData,
+                child:ListView.builder(
+                  itemCount: 10,
+                  itemBuilder: (context, index) {
+                    return const CardLoading(
+                      height: 100,
+                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                      margin: EdgeInsets.all(10),
+                    );
+                  }
+                )
+              );
             } else {
-              return ListView.builder(
+              return RefreshIndicator(
+                onRefresh: _refreshData,
+                child:ListView.builder(
                 itemCount: nfcUserProvider.getNFCUsers.length,
                 itemBuilder: (context, index) {
                   final user = nfcUserProvider.getNFCUsers[index];
-                  return ListTile(
-                    title: Text(user.userName),
-                    subtitle: Text(user.email),
-                  );
+                  return UserCard(user);
                 },
+                )
               );
             }
           }))

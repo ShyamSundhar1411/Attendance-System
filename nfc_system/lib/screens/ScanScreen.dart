@@ -15,6 +15,11 @@ class _ScanScreenState extends State<ScanScreen> {
   void _tagRead() {
     NfcManager.instance.startSession(onDiscovered: (NfcTag tag) async {
       result.value = tag.data;
+      List<int> identifier = result.value['nfca']['identifier'];
+      String serialNumber = identifier
+          .map((byte) => byte.toRadixString(16).padLeft(2, '0'))
+          .join(':').toUpperCase();
+      print(serialNumber);
       NfcManager.instance.stopSession();
     });
   }
@@ -22,23 +27,18 @@ class _ScanScreenState extends State<ScanScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Scan for NFC"),
-      ),
-      body: SafeArea(
-        child: FutureBuilder<bool>(
-          future: NfcManager.instance.isAvailable(),
-          builder: (context, ss) => ss.data != true
-              ? Center(child: Text('NfcManager.isAvailable(): ${ss.data}'))
-              : Center(
-                  child: CircularButton(
-                    size: 120.0,
-                    icon: Icons.add,
-                    onPressed: _tagRead
-                ),
-        )
-        )
-      )
-    );
+        appBar: AppBar(
+          title: const Text("Scan for NFC"),
+        ),
+        body: SafeArea(
+            child: FutureBuilder<bool>(
+                future: NfcManager.instance.isAvailable(),
+                builder: (context, ss) => ss.data != true
+                    ? Center(
+                        child: Text('NfcManager.isAvailable(): ${ss.data}'))
+                    : Center(
+                        child: CircularButton(
+                            size: 120.0, icon: Icons.add, onPressed: _tagRead),
+                      ))));
   }
 }
