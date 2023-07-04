@@ -23,6 +23,7 @@ class _SearchUserScreenState extends State<SearchUserScreen> {
   @override
   Widget build(BuildContext context) {
     final nfcUserContainer = Provider.of<NFCUserProvider>(context);
+    // ignore: no_leading_underscores_for_local_identifiers
     Future<void> _refreshData() async {
       await nfcUserContainer.fetchUsers();
     }
