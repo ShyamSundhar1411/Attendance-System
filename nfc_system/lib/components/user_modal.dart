@@ -18,10 +18,11 @@ class _UserModalState extends State<UserModal> {
   Widget build(BuildContext context) {
     final meetingContainer = Provider.of<MeetingProvider>(context);
     final meetings = meetingContainer.getMeetings;
-    return Column(
+    return SingleChildScrollView(
+      child: Column(
       children: [
         Center(
-            child: Container(
+          child: Container(
           padding: const EdgeInsets.all(20),
           child: CircleAvatar(
             radius: 40,
@@ -49,7 +50,10 @@ class _UserModalState extends State<UserModal> {
           leading: const Icon(Icons.account_circle_outlined),
           title: Text(widget.user.facultyRegistered),
         ),
-        DropdownButton<String>(
+        Container(
+          padding: const EdgeInsets.all(5),
+          child:DropdownButton<String>(
+          elevation: 5,
           value: selectedMeeting,
           onChanged: (String? newValue) {
             setState(() {
@@ -62,6 +66,7 @@ class _UserModalState extends State<UserModal> {
               child: Text(meeting.name),
             );
           }).toList(),
+          )
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -82,6 +87,7 @@ class _UserModalState extends State<UserModal> {
           ],
         ),
       ],
+      )
     );
   }
 }

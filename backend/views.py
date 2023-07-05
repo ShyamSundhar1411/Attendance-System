@@ -21,7 +21,8 @@ def home():
         '/get/users/all/',
         '/get/user/<string:serial>/',
         '/get/message/all/',
-        '/get/attendances/all/'
+        '/get/attendances/all/',
+        'mark/attendance/',
         '/login/'
     ]
     return jsonify(routes)
@@ -42,6 +43,15 @@ def get_attendances():
     attendances = Attendance.query.all()
     return attendance_schema.jsonify(attendances)
 
+@app.route('/mark/attendance', methods=['POST'])
+def create_attendance():
+    data = request.get_json()
+    attendance, errors = attendance_schema.load(data)
+    if errors:
+        return jsonify(errors), 400
+    db.session.add(attendance)
+    db.session.commit()
+    return jsonify({'message': 'Attendance created successfully'})
 @app.route('/login/',methods = ['GET','POST'])
 def login():
     username = request.json.get('username')
