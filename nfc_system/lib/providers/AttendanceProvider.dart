@@ -23,7 +23,6 @@ class AttendanceProvider with ChangeNotifier {
     );
     if (response.statusCode == 200) {
       // Attendance created successfully
-      print('Attendance created');
 
       // Notify listeners that the attendance creation was successful
       notifyListeners();

@@ -34,7 +34,7 @@ class _ScanScreenState extends State<ScanScreen> {
       showModalBottomSheet(
         context: context,
         builder: (BuildContext context) {
-          return UserModal(scannedUser!);
+          return  UserModal(scannedUser!);
         },
       );
     }
