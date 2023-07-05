@@ -49,8 +49,8 @@ class Meeting(db.Model):
 class Attendance(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     meeting_id = db.Column(db.Integer, db.ForeignKey('meeting.id'), nullable=False)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('nfcuser.id'), nullable=False)
     status = db.Column(ChoiceType(STATUS_CHOICES),nullable=False,info = {"label":"Unit"})
     date = db.Column(db.DateTime)
     meeting = db.relationship('Meeting', backref=db.backref('attendances', lazy='dynamic'))
-    user = db.relationship('User', backref=db.backref('attendances', lazy='dynamic'))
+    nfcuser = db.relationship('NFCUser', backref=db.backref('attendances', lazy='dynamic'))
