@@ -2,6 +2,7 @@ from backend import app,db
 from backend.models import *
 from backend.schemas import *
 from flask import request,jsonify
+from flask_migrate import upgrade
 from flask_jwt_extended import JWTManager, create_access_token, jwt_required, get_jwt_identity
 from flask_login import LoginManager, current_user,UserMixin,login_user,logout_user,login_required
 
@@ -54,7 +55,11 @@ def create_attendance():
     return jsonify({'message': 'Attendance created successfully'})
     # except:
     #     return "Error Processing Request",400
-    
+@app.route('/migrate')
+def migrate_database():
+    with app.app_context():
+        upgrade()
+    return 'Database migration complete'
 @app.route('/login/',methods = ['GET','POST'])
 def login():
     username = request.json.get('username')
