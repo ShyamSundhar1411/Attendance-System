@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../providers/MeetingProvider.dart';
 import '../models/NFCUserModel.dart';
+import '../models/MeetingModel.dart';
 
 class UserModal extends StatefulWidget {
   final NFCUser user;
@@ -12,11 +13,11 @@ class UserModal extends StatefulWidget {
 }
 
 class _UserModalState extends State<UserModal> {
+  String? selectedMeeting;
   @override
   Widget build(BuildContext context) {
     final meetingContainer = Provider.of<MeetingProvider>(context);
     final meetings = meetingContainer.getMeetings;
-    final selectedMeeting = meetings[0];
     return Column(
       children: [
         Center(
@@ -48,27 +49,19 @@ class _UserModalState extends State<UserModal> {
           leading: const Icon(Icons.account_circle_outlined),
           title: Text(widget.user.facultyRegistered),
         ),
-        Container(
-          padding: const EdgeInsets.all(10),
-          child: DropdownButtonHideUnderline(
-              child: DropdownButton(
-            isDense: true,
-            isExpanded: true,
-
-            hint: const Text("Select Data",
-                style: TextStyle(color: Colors.black)),
-            items: meetings.map((meeting) {
-              return DropdownMenuItem(
-                child: Text(meeting.name),
-                value: meeting.id.toString(),
-              );
-            }).toList(),
-            onChanged: (value) {
-              setState(() {
-                print(value);
-              });
-            },
-          )),
+        DropdownButton<String>(
+          value: selectedMeeting,
+          onChanged: (String? newValue) {
+            setState(() {
+              selectedMeeting = newValue;
+            });
+          },
+          items: meetings.map<DropdownMenuItem<String>>((Meeting meeting) {
+            return DropdownMenuItem<String>(
+              value: meeting.name,
+              child: Text(meeting.name),
+            );
+          }).toList(),
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,

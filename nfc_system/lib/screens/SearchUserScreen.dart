@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:nfc_system/components/user_card.dart';
 import 'package:provider/provider.dart';
@@ -14,10 +15,22 @@ class SearchUserScreen extends StatefulWidget {
 
 class _SearchUserScreenState extends State<SearchUserScreen> {
   final TextEditingController _searchController = TextEditingController();
+  var isLoading = true;
+  void startLoadingTimer() {
+    const loadingDuration =
+        Duration(seconds: 2); // Adjust the duration as needed
+
+    Timer(loadingDuration, () {
+      setState(() {
+        isLoading = false;
+      });
+    });
+  }
+
   @override
   void initState() {
     super.initState();
-    Provider.of<NFCUserProvider>(context, listen: false).fetchUsers();
+    startLoadingTimer();
   }
 
   @override
@@ -25,9 +38,12 @@ class _SearchUserScreenState extends State<SearchUserScreen> {
     final nfcUserContainer = Provider.of<NFCUserProvider>(context);
     // ignore: no_leading_underscores_for_local_identifiers
     Future<void> _refreshData() async {
+      setState(() {
+        isLoading = true;
+      });
+      startLoadingTimer();
       await nfcUserContainer.fetchUsers();
     }
-
     return Scaffold(
         appBar: AppBar(
           title: Text(widget.title),
@@ -38,33 +54,32 @@ class _SearchUserScreenState extends State<SearchUserScreen> {
               child: CustomSearchBar(_searchController)),
           Expanded(child:
               Consumer<NFCUserProvider>(builder: (context, nfcUserProvider, _) {
-            if (nfcUserProvider.getNFCUsers.isEmpty) {
+            
               return RefreshIndicator(
-                onRefresh:_refreshData,
-                child:ListView.builder(
-                  itemCount: 10,
-                  itemBuilder: (context, index) {
-                    return const CardLoading(
-                      height: 100,
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                      margin: EdgeInsets.all(10),
-                    );
-                  }
-                )
-              );
-            } else {
-              return RefreshIndicator(
-                onRefresh: _refreshData,
-                child:ListView.builder(
-                itemCount: nfcUserProvider.getNFCUsers.length,
-                itemBuilder: (context, index) {
-                  final user = nfcUserProvider.getNFCUsers[index];
-                  return UserCard(user);
-                  },
-                )
-              );
-            }
-          }))
-        ]));
+                  onRefresh: _refreshData,
+                  child: isLoading ? (ListView.builder(
+                      itemCount: 10,
+                      itemBuilder: (context, index) {
+                        return const CardLoading(
+                          height: 100,
+                          borderRadius: BorderRadius.all(Radius.circular(10)),
+                          margin: EdgeInsets.all(10),
+                        );
+                      }
+                    )
+                  ) : ListView.builder(
+                    itemCount: nfcUserProvider.getNFCUsers.length,
+                    itemBuilder: (context, index) {
+                      final user = nfcUserProvider.getNFCUsers[index];
+                      return UserCard(user);
+                      }
+                    )
+                  );
+                }
+              )
+          )   
+        ]
+      )
+    );
   }
 }
