@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:nfc_system/models/AttendanceModel.dart';
+import 'package:nfc_system/providers/AttendanceProvider.dart';
 import 'package:provider/provider.dart';
 import '../providers/MeetingProvider.dart';
 import '../models/NFCUserModel.dart';
@@ -18,11 +20,13 @@ class _UserModalState extends State<UserModal> {
   Widget build(BuildContext context) {
     final meetingContainer = Provider.of<MeetingProvider>(context);
     final meetings = meetingContainer.getMeetings;
+    final attendanceContainer = Provider.of<AttendanceProvider>(context);
+
     return SingleChildScrollView(
-      child: Column(
+        child: Column(
       children: [
         Center(
-          child: Container(
+            child: Container(
           padding: const EdgeInsets.all(20),
           child: CircleAvatar(
             radius: 40,
@@ -51,43 +55,51 @@ class _UserModalState extends State<UserModal> {
           title: Text(widget.user.facultyRegistered),
         ),
         Container(
-          padding: const EdgeInsets.all(5),
-          child:DropdownButton<String>(
-          elevation: 5,
-          value: selectedMeeting,
-          onChanged: (String? newValue) {
-            setState(() {
-              selectedMeeting = newValue;
-            });
-          },
-          items: meetings.map<DropdownMenuItem<String>>((Meeting meeting) {
-            return DropdownMenuItem<String>(
-              value: meeting.name,
-              child: Text(meeting.name),
-            );
-          }).toList(),
-          )
-        ),
+            padding: const EdgeInsets.all(5),
+            child: DropdownButton<String>(
+              elevation: 5,
+              value: selectedMeeting,
+              onChanged: (String? newValue) {
+                setState(() {
+                  selectedMeeting = newValue;
+                });
+              },
+              items: meetings.map<DropdownMenuItem<String>>((Meeting meeting) {
+                return DropdownMenuItem<String>(
+                  value: meeting.name,
+                  child: Text(meeting.name),
+                );
+              }).toList(),
+            )),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             ElevatedButton(
               onPressed: () {
-                // Handle absent button press
+                final meetingId = meetings
+                    .firstWhere((element) => element.name == selectedMeeting)
+                    .id;
+                final createdAttendance = Attendance(
+                    meetingId, widget.user.id, "Present", DateTime.now());
+                attendanceContainer.createAttendance(createdAttendance);
               },
               child: const Text('Present'),
             ),
             const SizedBox(width: 16),
             ElevatedButton(
               onPressed: () {
-                // Handle present button press
+                 final meetingId = meetings
+                    .firstWhere((element) => element.name == selectedMeeting)
+                    .id;
+                final createdAttendance = Attendance(
+                    meetingId, widget.user.id, "Absent", DateTime.now());
+                attendanceContainer.createAttendance(createdAttendance);
               },
               child: const Text('Absent'),
             ),
           ],
         ),
       ],
-      )
-    );
+    ));
   }
 }

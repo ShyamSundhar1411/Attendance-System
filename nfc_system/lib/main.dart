@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:nfc_system/providers/AttendanceProvider.dart';
 import './providers/MeetingProvider.dart';
 import './providers/NFCUserProvider.dart';
 import 'package:provider/provider.dart';
@@ -21,6 +22,7 @@ class _MyAppState extends State<MyApp> {
       providers: [
         ChangeNotifierProvider(create: (ctx)=>NFCUserProvider()),
         ChangeNotifierProvider(create: (ctx)=>MeetingProvider()),
+        ChangeNotifierProvider(create: (ctx)=>AttendanceProvider())
       ],
       child:MaterialApp(
         title: "NFC Attendance System",

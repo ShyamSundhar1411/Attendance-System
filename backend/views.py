@@ -43,15 +43,17 @@ def get_attendances():
     attendances = Attendance.query.all()
     return attendance_schema.jsonify(attendances)
 
-@app.route('/mark/attendance', methods=['POST'])
+@app.route('/mark/attendance/', methods=['POST'])
 def create_attendance():
     data = request.get_json()
-    attendance, errors = attendance_schema.load(data)
-    if errors:
-        return jsonify(errors), 400
-    db.session.add(attendance)
-    db.session.commit()
-    return jsonify({'message': 'Attendance created successfully'})
+    try:
+        attendance = Attendance(meeting_id = data['meeting_id'],user_id = data['user_id'],status = data['status'],date=datetime.strptime(data['date'], '%Y-%m-%d %H:%M:%S'))
+        db.session.add(attendance)
+        db.session.commit()
+        return jsonify({'message': 'Attendance created successfully'})
+    except:
+        return "Error Processing Request",400
+    
 @app.route('/login/',methods = ['GET','POST'])
 def login():
     username = request.json.get('username')
