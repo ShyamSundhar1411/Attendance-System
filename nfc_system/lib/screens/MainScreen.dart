@@ -1,5 +1,6 @@
 import "package:flutter/material.dart";
 import "package:nfc_system/components/bottom_navigation_bar.dart";
+import "package:nfc_system/providers/MeetingProvider.dart";
 import "package:provider/provider.dart";
 import "package:nfc_system/providers/NFCUserProvider.dart";
 import "package:nfc_system/screens/ScanScreen.dart";
@@ -21,12 +22,14 @@ class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     final nfcContainer = Provider.of<NFCUserProvider>(context);
+    final meetingContainer = Provider.of<MeetingProvider>(context);
 
     // Fetch the API container on app startup
     WidgetsBinding.instance?.addPostFrameCallback((_) {
       nfcContainer.fetchUsers();
+      meetingContainer.fetchMeetings();
     });
-    
+
     return Scaffold(
         body: screens[index],
         bottomNavigationBar: MyBottomNavigator(

@@ -60,7 +60,7 @@ class _SearchUserScreenState extends State<SearchUserScreen> {
                 itemBuilder: (context, index) {
                   final user = nfcUserProvider.getNFCUsers[index];
                   return UserCard(user);
-                },
+                  },
                 )
               );
             }

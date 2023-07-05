@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import '../providers/NFCUserProvider.dart';
 import '../components/circular_button.dart';
 import '../models/NFCUserModel.dart';
-import '../components/user_model.dart';
+import '../components/user_modal.dart';
 
 class ScanScreen extends StatefulWidget {
   @override

@@ -12,7 +12,6 @@ class NFCUserProvider with ChangeNotifier {
   }
 
   bool _isLoading = true;
-
   bool get isLoading => _isLoading;
   Future<void> fetchUsers() async {
     final url = 'https://mic-attendance-system.onrender.com/get/users/all/';
