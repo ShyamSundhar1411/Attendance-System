@@ -43,7 +43,11 @@ def get_meetings():
 def get_attendances():
     attendances = Attendance.query.all()
     return attendance_schema.jsonify(attendances)
-
+@app.route('/get/attendance/<string:serial>/',methods = ['GET'])
+def get_attendance_with_nfc(serial):
+    user = NFCUser.query.filter_by(nfc_serial=serial).first()
+    attendances = Attendance.query.filter_by(user=user).all()
+    return attendance_schema.jsonify(attendances)
 @app.route('/mark/attendance/', methods=['POST'])
 def create_attendance():
     data = request.get_json()
