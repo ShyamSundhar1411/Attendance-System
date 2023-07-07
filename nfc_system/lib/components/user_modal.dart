@@ -64,7 +64,7 @@ class _UserModalState extends State<UserModal> {
         },
       );
 
-      Future.delayed(Duration(seconds: 3), () {
+      Future.delayed(const Duration(seconds: 3), () {
         attendanceContainer.createAttendance(createdAttendance);
 
         setState(() {
@@ -72,7 +72,7 @@ class _UserModalState extends State<UserModal> {
         });
 
         // Close the modal after a delay of 3 seconds
-        Future.delayed(Duration(seconds: 3), () {
+        Future.delayed(const Duration(seconds: 3), () {
           Navigator.pop(context);
           Navigator.pop(context);
         });

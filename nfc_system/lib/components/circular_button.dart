@@ -12,7 +12,7 @@ class CircularButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Ink(
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         color: Colors.blue,
         shape: BoxShape.circle,
       ),
@@ -22,7 +22,7 @@ class CircularButton extends StatelessWidget {
         child: Container(
           width: size,
           height: size,
-          child: Center(child:Text('Scan',style: TextStyle(color:Colors.white),))
+          child: const Center(child:Text('Scan',style: TextStyle(color:Colors.white),))
         ),
       ),
     );

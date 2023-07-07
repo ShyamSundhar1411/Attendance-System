@@ -37,7 +37,7 @@ class AttendanceProvider with ChangeNotifier {
   }
 
   Future<void> fetchAttendance(MeetingProvider meetingProvider) async {
-    final url =
+    const url =
         'https://mic-attendance-system.onrender.com/get/attendances/all/';
     final List<Meeting> meetings = meetingProvider.getMeetings;
     try {
