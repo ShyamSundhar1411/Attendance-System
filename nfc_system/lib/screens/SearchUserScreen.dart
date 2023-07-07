@@ -36,6 +36,8 @@ class _SearchUserScreenState extends State<SearchUserScreen> {
   @override
   Widget build(BuildContext context) {
     final nfcUserContainer = Provider.of<NFCUserProvider>(context);
+    
+
     // ignore: no_leading_underscores_for_local_identifiers
     Future<void> _refreshData() async {
       setState(() {
@@ -44,6 +46,7 @@ class _SearchUserScreenState extends State<SearchUserScreen> {
       startLoadingTimer();
       await nfcUserContainer.fetchUsers();
     }
+
     return Scaffold(
         appBar: AppBar(
           title: Text(widget.title),
@@ -54,32 +57,25 @@ class _SearchUserScreenState extends State<SearchUserScreen> {
               child: CustomSearchBar(_searchController)),
           Expanded(child:
               Consumer<NFCUserProvider>(builder: (context, nfcUserProvider, _) {
-            
-              return RefreshIndicator(
-                  onRefresh: _refreshData,
-                  child: isLoading ? (ListView.builder(
-                      itemCount: 10,
-                      itemBuilder: (context, index) {
-                        return const CardLoading(
-                          height: 100,
-                          borderRadius: BorderRadius.all(Radius.circular(10)),
-                          margin: EdgeInsets.all(10),
-                        );
-                      }
-                    )
-                  ) : ListView.builder(
-                    itemCount: nfcUserProvider.getNFCUsers.length,
-                    itemBuilder: (context, index) {
-                      final user = nfcUserProvider.getNFCUsers[index];
-                      return UserCard(user);
-                      }
-                    )
-                  );
-                }
-              )
-          )   
-        ]
-      )
-    );
+            return RefreshIndicator(
+                onRefresh: _refreshData,
+                child: isLoading
+                    ? (ListView.builder(
+                        itemCount: 10,
+                        itemBuilder: (context, index) {
+                          return const CardLoading(
+                            height: 100,
+                            borderRadius: BorderRadius.all(Radius.circular(10)),
+                            margin: EdgeInsets.all(10),
+                          );
+                        }))
+                    : ListView.builder(
+                        itemCount: nfcUserProvider.getNFCUsers.length,
+                        itemBuilder: (context, index) {
+                          final user = nfcUserProvider.getNFCUsers[index];
+                          return UserCard(user);
+                        }));
+          }))
+        ]));
   }
 }

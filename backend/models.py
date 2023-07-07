@@ -1,7 +1,6 @@
 from datetime import datetime
 from backend import db
 from backend.choices import *
-from sqlalchemy_utils import ChoiceType
 from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
 
@@ -50,7 +49,7 @@ class Attendance(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     meeting_id = db.Column(db.Integer, db.ForeignKey('meeting.id'), nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('nfc_user.id'), nullable=False)
-    status = db.Column(ChoiceType(STATUS_CHOICES),nullable=False,info = {"label":"Unit"})
+    status = db.Column(db.String(100),nullable=False)
     date = db.Column(db.DateTime)
     meeting = db.relationship('Meeting', backref=db.backref('attendances', lazy='dynamic'))
     nfcuser = db.relationship('NFCUser', backref=db.backref('attendances', lazy='dynamic'))

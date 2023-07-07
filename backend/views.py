@@ -39,10 +39,10 @@ def get_user_with_nfc(serial):
 def get_meetings():
     meetings = Meeting.query.all()
     return meeting_schema.jsonify(meetings)
-@app.route('/get/attendances/all/',methods = ['GET'])
+@app.route('/get/attendances/all/', methods=['GET'])
 def get_attendances():
     attendances = Attendance.query.all()
-    return attendance_schema.jsonify(attendances)
+    return attendance_schema.jsonify(attendances, many=True)
 @app.route('/get/attendance/<string:serial>/',methods = ['GET'])
 def get_attendance_with_nfc(serial):
     user = NFCUser.query.filter_by(nfc_serial=serial).first()

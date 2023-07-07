@@ -30,7 +30,7 @@ class _ScanScreenState extends State<ScanScreen> {
       return users.firstWhere((user) => user.nfcSerial == nfc);
     }
 
-    void showUserModal(BuildContext context) {
+    void _showUserModal(BuildContext context) {
       showModalBottomSheet(
         context: context,
         builder: (BuildContext context) {
@@ -44,7 +44,7 @@ class _ScanScreenState extends State<ScanScreen> {
         scannedUser = findUserByNFC(serialNumber);
       });
       if (scannedUser != null) {
-        showUserModal(context);
+        _showUserModal(context);
       }
     }
 
