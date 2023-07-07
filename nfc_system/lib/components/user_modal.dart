@@ -30,8 +30,7 @@ class _UserModalState extends State<UserModal> {
       });
 
       final meetingId = meetings
-          .firstWhere((element) => element.name == selectedMeeting)
-          .id;
+          .firstWhere((element) => element.name == selectedMeeting);
       final createdAttendance = Attendance(
         meetingId,
         widget.user.id,

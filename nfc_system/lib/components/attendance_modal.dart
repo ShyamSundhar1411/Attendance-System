@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:nfc_system/models/NFCUserModel.dart';
+import '../models/NFCUserModel.dart';
+import '../models/AttendanceModel.dart';
 
-
-class AttendanceModal extends StatelessWidget{
+class AttendanceModal extends StatelessWidget {
   final NFCUser user;
-  AttendanceModal(this.user);
+  final List<Attendance> userAttendance;
+  AttendanceModal(this.user, this.userAttendance);
+  
   @override
-  Widget build(BuildContext context){
+  Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Column(
         children: [
@@ -24,23 +26,19 @@ class AttendanceModal extends StatelessWidget{
               ),
             ),
           ),
-          ListTile(
-            leading: const Icon(Icons.account_circle_outlined),
-            title: Text(user.userName),
-          ),
-          ListTile(
-            leading: const Icon(Icons.mail_lock_outlined),
-            title: Text(user.email),
-          ),
-          ListTile(
-            leading: const Icon(Icons.account_circle_outlined),
-            title: Text(user.regNumber),
-          ),
-          ListTile(
-            leading: const Icon(Icons.account_circle_outlined),
-            title: Text(user.facultyRegistered),
-          ),
-
+          ...userAttendance.map(
+            (element) => Card(
+              margin:const  EdgeInsets.all(10),
+              child:ListTile(
+              leading: const Icon(Icons.account_circle_outlined),
+              title: Text(element.meeting.name),
+              subtitle: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children:[
+                Text(element.status),
+              ]),
+            )),
+          )
         ],
       ),
     );

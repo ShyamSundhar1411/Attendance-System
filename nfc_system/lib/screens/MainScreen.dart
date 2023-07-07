@@ -30,6 +30,7 @@ class _MainScreenState extends State<MainScreen> {
     WidgetsBinding.instance?.addPostFrameCallback((_) {
       nfcContainer.fetchUsers();
       meetingContainer.fetchMeetings();
+      attendanceContainer.fetchAttendance(meetingContainer);
     });
 
     return Scaffold(

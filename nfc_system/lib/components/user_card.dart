@@ -1,20 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:nfc_system/models/AttendanceModel.dart';
+import 'package:nfc_system/providers/AttendanceProvider.dart';
+import 'package:nfc_system/providers/MeetingProvider.dart';
+import 'package:provider/provider.dart';
 import '../components/attendance_modal.dart';
 import '../models/NFCUserModel.dart';
 
 class UserCard extends StatelessWidget {
   final NFCUser user;
   UserCard(this.user);
-  void _showUserModal(BuildContext context, NFCUser user) {
-      showModalBottomSheet(
-        context: context,
-        builder: (BuildContext context) {
-          return AttendanceModal(user);
-        },
-      );
-    }
+  void _showUserModal(BuildContext context, NFCUser user,List<Attendance> userAttendance) {
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) {
+        return AttendanceModal(user,userAttendance);
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
+    final attendanceContainer = Provider.of<AttendanceProvider>(context);
+    final meetingContainer = Provider.of<MeetingProvider>(context);
+    final List<Attendance> userAttendance = attendanceContainer.getAttendanceItems().where((element)=>element.userId == user.id).toList();
     return ClipRRect(
         borderRadius: const BorderRadius.all(Radius.circular(10)),
         child: Card(
@@ -23,8 +31,9 @@ class UserCard extends StatelessWidget {
           child: InkWell(
               splashColor: Colors.blue,
               onTap: () => {
-                _showUserModal(context,user)
-              },
+                print(userAttendance),
+                _showUserModal(context, user,userAttendance)
+                },
               child: ListTile(
                 leading: CircleAvatar(
                   child: Text(user.userName.substring(0, 1)),
