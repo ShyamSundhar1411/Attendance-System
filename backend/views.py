@@ -53,6 +53,8 @@ def create_attendance():
     data = request.get_json()
     try:
         attendance = Attendance.query.filter_by(meeting_id = data['meeting_id'],user_id = data['user_id']).first()
+        attendance.status = data['status']
+        attendance.date = datetime.strptime(data['date'], '%Y-%m-%d %H:%M:%S')
         db.session.commit()
     except:
         attendance = Attendance(meeting_id = data['meeting_id'],user_id = data['user_id'],status = data['status'],date=datetime.strptime(data['date'], '%Y-%m-%d %H:%M:%S'))
