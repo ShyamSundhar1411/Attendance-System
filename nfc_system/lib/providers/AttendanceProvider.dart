@@ -31,4 +31,23 @@ class AttendanceProvider with ChangeNotifier {
       print('Failed to create attendance. Status code: ${response.statusCode}');
     }
   }
+  Future<void> fetchAttendance() async {
+    final url = 'https://mic-attendance-system.onrender.com/get/attendances/all/';
+    try {
+      final response = await http.get(Uri.parse(url));
+      if (response.statusCode == 200) {
+        final List<dynamic> data = json.decode(response.body);
+        _attendanceItems = data
+            .map((attendanceJson) => Attendance(attendanceJson['meeting_id'],attendanceJson['user_id'],
+            attendanceJson['status'],attendanceJson['date']))
+            .toList();
+        notifyListeners();
+      } else {
+        notifyListeners();
+        throw Exception("Failed to fetch meetings");
+      }
+    } catch (e) {
+      print(e);
+    }
+  }
 }
