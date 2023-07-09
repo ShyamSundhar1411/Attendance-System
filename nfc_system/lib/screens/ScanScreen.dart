@@ -34,7 +34,7 @@ class _ScanScreenState extends State<ScanScreen> {
       showModalBottomSheet(
         context: context,
         builder: (BuildContext context) {
-          return  UserModal(scannedUser!);
+          return UserModal(scannedUser!);
         },
       );
     }
@@ -56,6 +56,7 @@ class _ScanScreenState extends State<ScanScreen> {
             .map((byte) => byte.toRadixString(16).padLeft(2, '0'))
             .join(':')
             .toUpperCase();
+      
         updateScannedUser(serialNumber);
         NfcManager.instance.stopSession();
       });
