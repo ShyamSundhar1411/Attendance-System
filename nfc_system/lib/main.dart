@@ -1,11 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:nfc_system/providers/AttendanceProvider.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import './providers/MeetingProvider.dart';
 import './providers/NFCUserProvider.dart';
 import 'package:provider/provider.dart';
 import './screens/MainScreen.dart';
 
-void main() {
+Future<void> main() async{
+
+  // Get the directory where the current Dart script is executing
+  
+
+  // Load the dotenv file
+  await dotenv.load(fileName: '.env');
   runApp(MyApp());
 }
 

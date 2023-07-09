@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import '../models/AttendanceModel.dart';
 import '../models/MeetingModel.dart';
 import '../providers/MeetingProvider.dart';
@@ -13,7 +14,8 @@ class AttendanceProvider with ChangeNotifier {
   }
 
   Future<void> createAttendance(Attendance attendance) async {
-    final url = "https://mic-attendance-system.onrender.com/mark/attendance/";
+    final clientUrl = dotenv.env['CLIENT_URL'];
+    final url = "$clientUrl/attendance/system/mark/attendance/";
     final headers = {'Content-Type': 'application/json'};
     final dateFormat = DateFormat('yyyy-MM-dd HH:mm:ss');
     final formattedDate = dateFormat.format(attendance.date);
@@ -31,14 +33,15 @@ class AttendanceProvider with ChangeNotifier {
       // Notify listeners that the attendance creation was successful
       notifyListeners();
     } else {
+      print(clientUrl);
       // Failed to create attendance
       print('Failed to create attendance. Status code: ${response.statusCode}');
     }
   }
 
   Future<void> fetchAttendance(MeetingProvider meetingProvider) async {
-    const url =
-        'https://mic-attendance-system.onrender.com/get/attendances/all/';
+    final clientUrl = dotenv.env['CLIENT_URL'];
+    final url = "$clientUrl/attendance/system/get/attendances/all";
     final List<Meeting> meetings = meetingProvider.getMeetings;
     try {
       final response = await http.get(Uri.parse(url));
@@ -46,12 +49,12 @@ class AttendanceProvider with ChangeNotifier {
         final List<dynamic> data = json.decode(response.body);
 
         _attendanceItems = data.map((attendanceJson) {
-          final meetingId = attendanceJson['meeting_id'];
+          final meetingId = attendanceJson['meeting'];
           final meeting =
               meetings.firstWhere((meeting) => meeting.id == meetingId);
           return Attendance(
             meeting,
-            attendanceJson['user_id'],
+            attendanceJson['user'],
             attendanceJson['status'],
             DateTime.parse(attendanceJson['date']),
           );
@@ -59,7 +62,7 @@ class AttendanceProvider with ChangeNotifier {
         notifyListeners();
       } else {
         notifyListeners();
-        throw Exception("Failed to fetch meetings");
+        throw Exception("Failed to fetch Attendances");
       }
     } catch (e) {
       print(e);

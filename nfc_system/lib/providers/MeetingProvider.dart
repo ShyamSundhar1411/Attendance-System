@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import '../models/MeetingModel.dart';
 
 class MeetingProvider with ChangeNotifier {
@@ -10,7 +11,8 @@ class MeetingProvider with ChangeNotifier {
   }
 
   Future<void> fetchMeetings() async {
-    final url = 'https://mic-attendance-system.onrender.com/get/meetings/all/';
+    final clientUrl = dotenv.env['CLIENT_URL'];
+    final url = "$clientUrl/attendance/system/get/meetings/all";
     try {
       final response = await http.get(Uri.parse(url));
       if (response.statusCode == 200) {

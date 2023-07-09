@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import '../models/NFCUserModel.dart';
 
 class NFCUserProvider with ChangeNotifier {
@@ -14,7 +15,8 @@ class NFCUserProvider with ChangeNotifier {
   bool _isLoading = true;
   bool get isLoading => _isLoading;
   Future<void> fetchUsers() async {
-    final url = 'https://mic-attendance-system.onrender.com/get/users/all/';
+    final clientUrl = dotenv.env['CLIENT_URL'];
+    final url = "$clientUrl/attendance/system/get/users/all";
     final response = await http.get(Uri.parse(url));
     if (response.statusCode == 200) {
       final List<dynamic> data = json.decode(response.body);
@@ -24,7 +26,7 @@ class NFCUserProvider with ChangeNotifier {
               userJson['email'],
               userJson['faculty_registered'],
               userJson['nfc_serial'],
-              userJson['roll_no'],
+              userJson['reg_no'],
               userJson['username']))
           .toList();
       _isLoading = false;
@@ -37,8 +39,8 @@ class NFCUserProvider with ChangeNotifier {
   }
 
   Future<NFCUser> fetchUserNFC(String serial) async {
-    final url =
-        'https://mic-attendance-system.onrender.com/get/user/${serial}/';
+    final clientUrl = dotenv.env['CLIENT_URL'];
+    final url = "$clientUrl/attendance/system/get/users/${serial}";
     final response = await http.get(Uri.parse(url));
     if (response.statusCode == 200) {
       final jsonData = json.decode(response.body);
