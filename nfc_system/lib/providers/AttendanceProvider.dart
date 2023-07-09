@@ -28,9 +28,7 @@ class AttendanceProvider with ChangeNotifier {
     final response =
         await http.post(Uri.parse(url), headers: headers, body: body);
     if (response.statusCode == 200) {
-      // Attendance created successfully
-
-      // Notify listeners that the attendance creation was successful
+      await Future.delayed(const Duration(seconds: 2));
       notifyListeners();
     } else {
       print(clientUrl);

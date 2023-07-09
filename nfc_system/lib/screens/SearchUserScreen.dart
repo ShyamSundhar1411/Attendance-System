@@ -1,6 +1,9 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:nfc_system/components/user_card.dart';
+import 'package:nfc_system/models/AttendanceModel.dart';
+import 'package:nfc_system/providers/AttendanceProvider.dart';
+import 'package:nfc_system/providers/MeetingProvider.dart';
 import 'package:provider/provider.dart';
 import 'package:card_loading/card_loading.dart';
 import '../providers/NFCUserProvider.dart';
@@ -31,12 +34,22 @@ class _SearchUserScreenState extends State<SearchUserScreen> {
   void initState() {
     super.initState();
     startLoadingTimer();
+    WidgetsBinding.instance?.addPostFrameCallback((_) {
+      final nfcContainer = Provider.of<NFCUserProvider>(context, listen: false);
+      final meetingContainer = Provider.of<MeetingProvider>(context,listen: false);
+      final attendanceContainer = Provider.of<AttendanceProvider>(context,listen: false);
+
+      nfcContainer.fetchUsers();
+      meetingContainer.fetchMeetings();
+      attendanceContainer.fetchAttendance(meetingContainer);
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     final nfcUserContainer = Provider.of<NFCUserProvider>(context);
-    
+    final meetingContainer = Provider.of<MeetingProvider>(context);
+    final AttendanceContainer = Provider.of<AttendanceProvider>(context);
 
     // ignore: no_leading_underscores_for_local_identifiers
     Future<void> _refreshData() async {
@@ -45,6 +58,7 @@ class _SearchUserScreenState extends State<SearchUserScreen> {
       });
       startLoadingTimer();
       await nfcUserContainer.fetchUsers();
+      await AttendanceContainer.fetchAttendance(meetingContainer);
     }
 
     return Scaffold(

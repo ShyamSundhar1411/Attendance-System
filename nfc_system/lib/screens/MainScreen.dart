@@ -21,17 +21,24 @@ class _MainScreenState extends State<MainScreen> {
     ),
   ];
   @override
-  Widget build(BuildContext context) {
-    final nfcContainer = Provider.of<NFCUserProvider>(context);
-    final meetingContainer = Provider.of<MeetingProvider>(context);
-    final attendanceContainer = Provider.of<AttendanceProvider>(context);
+  void initState() {
+    super.initState();
 
-    // Fetch the API container on app startup
     WidgetsBinding.instance?.addPostFrameCallback((_) {
+      final nfcContainer = Provider.of<NFCUserProvider>(context, listen: false);
+      final meetingContainer = Provider.of<MeetingProvider>(context,listen: false);
+      final attendanceContainer = Provider.of<AttendanceProvider>(context,listen: false);
+
       nfcContainer.fetchUsers();
       meetingContainer.fetchMeetings();
       attendanceContainer.fetchAttendance(meetingContainer);
     });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+
+    // Fetch the API container on app startup
 
     return Scaffold(
         body: screens[index],
