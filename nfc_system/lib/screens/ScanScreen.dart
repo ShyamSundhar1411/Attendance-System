@@ -1,5 +1,9 @@
+import 'dart:convert';
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:nfc_manager/nfc_manager.dart';
+import 'package:nfc_manager/platform_tags.dart';
 import 'package:provider/provider.dart';
 import '../providers/NFCUserProvider.dart';
 import '../components/circular_button.dart';
@@ -48,7 +52,9 @@ class _ScanScreenState extends State<ScanScreen> {
       }
     }
 
-    void tagRead() {
+
+    
+    Future<void> tagRead() async {
       NfcManager.instance.startSession(onDiscovered: (NfcTag tag) async {
         result.value = tag.data;
         List<int> identifier = result.value['nfca']['identifier'];
@@ -56,7 +62,6 @@ class _ScanScreenState extends State<ScanScreen> {
             .map((byte) => byte.toRadixString(16).padLeft(2, '0'))
             .join(':')
             .toUpperCase();
-      
         updateScannedUser(serialNumber);
         NfcManager.instance.stopSession();
       });
