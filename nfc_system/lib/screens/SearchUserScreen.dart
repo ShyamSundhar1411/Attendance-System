@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:nfc_system/components/user_card.dart';
-import 'package:nfc_system/models/AttendanceModel.dart';
 import 'package:nfc_system/providers/AttendanceProvider.dart';
 import 'package:nfc_system/providers/MeetingProvider.dart';
 import 'package:provider/provider.dart';
@@ -34,7 +33,7 @@ class _SearchUserScreenState extends State<SearchUserScreen> {
   void initState() {
     super.initState();
     startLoadingTimer();
-    WidgetsBinding.instance?.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       final nfcContainer = Provider.of<NFCUserProvider>(context, listen: false);
       final meetingContainer = Provider.of<MeetingProvider>(context,listen: false);
       final attendanceContainer = Provider.of<AttendanceProvider>(context,listen: false);

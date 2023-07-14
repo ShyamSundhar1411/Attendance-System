@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:nfc_system/providers/MeetingProvider.dart';
 import 'package:percent_indicator/percent_indicator.dart';
-import 'package:provider/provider.dart';
 import '../models/NFCUserModel.dart';
 import '../models/AttendanceModel.dart';
 import '../models/MeetingModel.dart';

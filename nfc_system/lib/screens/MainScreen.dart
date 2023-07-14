@@ -24,7 +24,7 @@ class _MainScreenState extends State<MainScreen> {
   void initState() {
     super.initState();
 
-    WidgetsBinding.instance?.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       final nfcContainer = Provider.of<NFCUserProvider>(context, listen: false);
       final meetingContainer = Provider.of<MeetingProvider>(context,listen: false);
       final attendanceContainer = Provider.of<AttendanceProvider>(context,listen: false);

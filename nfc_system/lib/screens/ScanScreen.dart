@@ -1,9 +1,5 @@
-import 'dart:convert';
-import 'dart:typed_data';
-
 import 'package:flutter/material.dart';
 import 'package:nfc_manager/nfc_manager.dart';
-import 'package:nfc_manager/platform_tags.dart';
 import 'package:provider/provider.dart';
 import '../providers/NFCUserProvider.dart';
 import '../components/circular_button.dart';
