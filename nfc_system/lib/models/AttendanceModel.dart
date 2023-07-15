@@ -1,6 +1,8 @@
+import 'package:flutter/material.dart';
 import '../models/MeetingModel.dart';
 
-class Attendance {
+
+class Attendance with ChangeNotifier{
   final Meeting meeting;
   final int userId;
   final String status;

@@ -14,7 +14,8 @@ class MeetingProvider with ChangeNotifier {
     final clientUrl = dotenv.env['CLIENT_URL'];
     final url = "$clientUrl/attendance/system/get/meetings/all";
     try {
-      final response = await http.get(Uri.parse(url));
+      final response = await http.get(Uri.parse(url),
+      );
       if (response.statusCode == 200) {
         final List<dynamic> data = json.decode(response.body);
         _meetingItems = data

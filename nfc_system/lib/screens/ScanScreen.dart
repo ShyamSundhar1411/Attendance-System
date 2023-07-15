@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:nfc_manager/nfc_manager.dart';
+import 'package:nfc_system/providers/AuthProvider.dart';
 import 'package:provider/provider.dart';
 import '../providers/NFCUserProvider.dart';
 import '../components/circular_button.dart';
@@ -21,7 +22,12 @@ class _ScanScreenState extends State<ScanScreen> {
     super.initState();
     Provider.of<NFCUserProvider>(context, listen: false).fetchUsers();
   }
-
+   @override
+  void dispose() {
+    // Dispose of any resources like stream subscriptions, animation controllers, etc.
+    // Make sure to call super.dispose() as well.
+      super.dispose();
+  }
   @override
   Widget build(BuildContext context) {
     final nfcUserContainer = Provider.of<NFCUserProvider>(context);
@@ -47,9 +53,7 @@ class _ScanScreenState extends State<ScanScreen> {
         _showUserModal(context);
       }
     }
-
-
-    
+   
     Future<void> tagRead() async {
       NfcManager.instance.startSession(onDiscovered: (NfcTag tag) async {
         result.value = tag.data;

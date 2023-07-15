@@ -42,7 +42,8 @@ class AttendanceProvider with ChangeNotifier {
     final url = "$clientUrl/attendance/system/get/attendances/all";
     final List<Meeting> meetings = meetingProvider.getMeetings;
     try {
-      final response = await http.get(Uri.parse(url));
+      final response = await http.get(Uri.parse(url),
+      );
       if (response.statusCode == 200) {
         final List<dynamic> data = json.decode(response.body);
 

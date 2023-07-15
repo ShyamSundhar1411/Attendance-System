@@ -1,11 +1,12 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:nfc_system/components/user_card.dart';
-import 'package:nfc_system/providers/AttendanceProvider.dart';
-import 'package:nfc_system/providers/MeetingProvider.dart';
 import 'package:provider/provider.dart';
 import 'package:card_loading/card_loading.dart';
 import '../providers/NFCUserProvider.dart';
+import '../providers/AuthProvider.dart';
+import '../providers/AttendanceProvider.dart';
+import '../providers/MeetingProvider.dart';
 import '../components/search_bar.dart';
 
 class SearchUserScreen extends StatefulWidget {
@@ -35,21 +36,29 @@ class _SearchUserScreenState extends State<SearchUserScreen> {
     startLoadingTimer();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final nfcContainer = Provider.of<NFCUserProvider>(context, listen: false);
-      final meetingContainer = Provider.of<MeetingProvider>(context,listen: false);
-      final attendanceContainer = Provider.of<AttendanceProvider>(context,listen: false);
-
+      final meetingContainer =
+          Provider.of<MeetingProvider>(context, listen: false);
+      final attendanceContainer =
+          Provider.of<AttendanceProvider>(context, listen: false);
+      final userContainer = Provider.of<AuthProvider>(context);
       nfcContainer.fetchUsers();
       meetingContainer.fetchMeetings();
-      attendanceContainer.fetchAttendance(meetingContainer);
+      attendanceContainer.fetchAttendance(
+          meetingContainer);
     });
   }
-
+   @override
+   void dispose() {
+    // Dispose of any resources like stream subscriptions, animation controllers, etc.
+    // Make sure to call super.dispose() as well.
+    super.dispose();
+  }
   @override
   Widget build(BuildContext context) {
     final nfcUserContainer = Provider.of<NFCUserProvider>(context);
     final meetingContainer = Provider.of<MeetingProvider>(context);
     final AttendanceContainer = Provider.of<AttendanceProvider>(context);
-
+    final userContainer = Provider.of<AuthProvider>(context);
     // ignore: no_leading_underscores_for_local_identifiers
     Future<void> _refreshData() async {
       setState(() {
@@ -65,6 +74,7 @@ class _SearchUserScreenState extends State<SearchUserScreen> {
           title: Text(widget.title),
         ),
         body: Column(children: [
+          Text(userContainer.getAccessToken()),
           Padding(
               padding: const EdgeInsets.all(8.0),
               child: CustomSearchBar(_searchController)),

@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:nfc_system/providers/AttendanceProvider.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:nfc_system/providers/AuthProvider.dart';
 import './providers/MeetingProvider.dart';
 import './providers/NFCUserProvider.dart';
 import 'package:provider/provider.dart';
-import './screens/MainScreen.dart';
+import './screens/LoginScreen.dart';
 
-Future<void> main() async{
-
+Future<void> main() async {
   // Get the directory where the current Dart script is executing
-  
 
   // Load the dotenv file
   await dotenv.load(fileName: '.env');
@@ -22,18 +21,18 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
-      providers: [
-        ChangeNotifierProvider(create: (ctx)=>NFCUserProvider()),
-        ChangeNotifierProvider(create: (ctx)=>MeetingProvider()),
-        ChangeNotifierProvider(create: (ctx)=>AttendanceProvider())
-      ],
-      child:MaterialApp(
-        title: "NFC Attendance System",
-        home: MainScreen(),
-    ));
+        providers: [
+          ChangeNotifierProvider(create: (ctx) => NFCUserProvider()),
+          ChangeNotifierProvider(create: (ctx) => MeetingProvider()),
+          ChangeNotifierProvider(create: (ctx) => AttendanceProvider()),
+          ChangeNotifierProvider(create: (ctx) => AuthProvider()),
+        ],
+        child: const MaterialApp(
+          title: "NFC Attendance System",
+          home: LoginScreen(),
+        ));
   }
 }

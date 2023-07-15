@@ -17,7 +17,7 @@ class NFCUserProvider with ChangeNotifier {
   Future<void> fetchUsers() async {
     final clientUrl = dotenv.env['CLIENT_URL'];
     final url = "$clientUrl/attendance/system/get/users/all";
-    final response = await http.get(Uri.parse(url));
+    final response = await http.get(Uri.parse(url),);
     if (response.statusCode == 200) {
       final List<dynamic> data = json.decode(response.body);
       _nfcuseritems = data
