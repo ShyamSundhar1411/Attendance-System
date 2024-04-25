@@ -6,7 +6,6 @@ import "package:nfc_system/providers/MeetingProvider.dart";
 import "package:provider/provider.dart";
 import "package:nfc_system/providers/NFCUserProvider.dart";
 import "package:nfc_system/screens/ScanScreen.dart";
-import "package:nfc_system/screens/SearchUserScreen.dart";
 
 class MainScreen extends StatefulWidget {
   @override
@@ -17,9 +16,6 @@ class _MainScreenState extends State<MainScreen> {
   int index = 0;
   final screens = [
     ScanScreen(),
-    const SearchUserScreen(
-      title: "Search for Users",
-    ),
   ];
   @override
   void initState() {
@@ -27,14 +23,8 @@ class _MainScreenState extends State<MainScreen> {
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final nfcContainer = Provider.of<NFCUserProvider>(context, listen: false);
-      final meetingContainer =
-          Provider.of<MeetingProvider>(context, listen: false);
-      final attendanceContainer =
-          Provider.of<AttendanceProvider>(context, listen: false);
-      final userContainer = Provider.of<AuthProvider>(context);
+      final userContainer = Provider.of<AuthProvider>(context,listen: false);
       nfcContainer.fetchUsers();
-      meetingContainer.fetchMeetings();
-      attendanceContainer.fetchAttendance(meetingContainer);
     });
   }
   @override

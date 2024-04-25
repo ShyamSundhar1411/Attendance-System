@@ -32,5 +32,8 @@
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
+        <meta-data
+        android:name="flutter_log_level"
+        android:value="error" />
     </application>
 </manifest>

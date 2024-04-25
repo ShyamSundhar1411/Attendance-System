@@ -16,7 +16,7 @@ class NFCUserProvider with ChangeNotifier {
   bool get isLoading => _isLoading;
   Future<void> fetchUsers() async {
     final clientUrl = dotenv.env['CLIENT_URL'];
-    final url = "$clientUrl/attendance/system/get/users/all";
+    final url = "$clientUrl/get/users/all";
     final response = await http.get(Uri.parse(url),);
     if (response.statusCode == 200) {
       final List<dynamic> data = json.decode(response.body);
@@ -26,7 +26,7 @@ class NFCUserProvider with ChangeNotifier {
               userJson['email'],
               userJson['faculty_registered'],
               userJson['nfc_serial'],
-              userJson['reg_no'],
+              userJson['roll_no'],
               userJson['username']))
           .toList();
       _isLoading = false;

@@ -11,7 +11,6 @@ class MyBottomNavigator extends StatelessWidget {
     return CurvedNavigationBar(
         items: const <Widget>[
           Icon(Icons.sync, size: 30),
-          Icon(Icons.search, size: 30),
         ],
         onTap: onTap,
         );

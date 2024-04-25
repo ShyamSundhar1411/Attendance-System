@@ -22,38 +22,62 @@ class _ScanScreenState extends State<ScanScreen> {
     super.initState();
     Provider.of<NFCUserProvider>(context, listen: false).fetchUsers();
   }
-   @override
+
+  @override
   void dispose() {
     // Dispose of any resources like stream subscriptions, animation controllers, etc.
     // Make sure to call super.dispose() as well.
-      super.dispose();
+    super.dispose();
   }
+
   @override
   Widget build(BuildContext context) {
     final nfcUserContainer = Provider.of<NFCUserProvider>(context);
-    NFCUser findUserByNFC(String nfc) {
+    NFCUser? findUserByNFC(String nfc) {
       final users = nfcUserContainer.getNFCUsers;
-      return users.firstWhere((user) => user.nfcSerial == nfc);
+      try {
+        return users.firstWhere((user) => user.nfcSerial == nfc);
+      } catch (e) {
+        return null;
+      }
     }
 
     void _showUserModal(BuildContext context) {
-      showModalBottomSheet(
-        context: context,
-        builder: (BuildContext context) {
-          return UserModal(scannedUser!);
-        },
-      );
+      if (scannedUser != null) {
+        showModalBottomSheet(
+          context: context,
+          builder: (BuildContext context) {
+            return UserModal(scannedUser!);
+          },
+        );
+      } else {
+        // Show access denied message
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text("Access Denied"),
+              actions: <Widget>[
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: Text("OK"),
+                ),
+              ],
+            );
+          },
+        );
+      }
     }
 
     void updateScannedUser(String serialNumber) {
       setState(() {
         scannedUser = findUserByNFC(serialNumber);
       });
-      if (scannedUser != null) {
-        _showUserModal(context);
-      }
+      _showUserModal(context);
     }
-   
+
     Future<void> tagRead() async {
       NfcManager.instance.startSession(onDiscovered: (NfcTag tag) async {
         result.value = tag.data;

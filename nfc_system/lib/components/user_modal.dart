@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:nfc_system/models/AttendanceModel.dart';
-import 'package:nfc_system/providers/AttendanceProvider.dart';
 import 'package:provider/provider.dart';
 import '../providers/MeetingProvider.dart';
 import '../models/NFCUserModel.dart';
@@ -16,68 +14,11 @@ class UserModal extends StatefulWidget {
 
 class _UserModalState extends State<UserModal> {
   String? selectedMeeting;
-  bool _isLoading = false;
 
   @override
   Widget build(BuildContext context) {
     final meetingContainer = Provider.of<MeetingProvider>(context);
     final meetings = meetingContainer.getMeetings;
-    final attendanceContainer = Provider.of<AttendanceProvider>(context);
-
-    void _createAttendance(String status) {
-      setState(() {
-        _isLoading = true;
-      });
-
-      final meetingId = meetings
-          .firstWhere((element) => element.name == selectedMeeting);
-      final createdAttendance = Attendance(
-        meetingId,
-        widget.user.id,
-        status,
-        DateTime.now(),
-      );
-
-      showDialog(
-        context: context,
-        barrierDismissible: false,
-        builder: (BuildContext context) {
-          return Dialog(
-            child: Container(
-              padding: const EdgeInsets.all(16),
-              child: const Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  CircularProgressIndicator(),
-                  SizedBox(height: 16),
-                  Text(
-                    'Marking Attendance...',
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          );
-        },
-      );
-
-      Future.delayed(const Duration(seconds: 3), () {
-        attendanceContainer.createAttendance(createdAttendance);
-
-        setState(() {
-          _isLoading = false;
-        });
-
-        // Close the modal after a delay of 3 seconds
-        Future.delayed(const Duration(seconds: 3), () {
-          Navigator.pop(context);
-          Navigator.pop(context);
-        });
-      });
-    }
 
     return SingleChildScrollView(
       child: Column(
@@ -113,7 +54,7 @@ class _UserModalState extends State<UserModal> {
             title: Text(widget.user.facultyRegistered),
           ),
           Container(
-            margin:const  EdgeInsets.only(left:10),
+            margin: const EdgeInsets.only(left: 10),
             child: DropdownButton<String>(
               elevation: 10,
               value: selectedMeeting,
@@ -130,33 +71,29 @@ class _UserModalState extends State<UserModal> {
               }).toList(),
             ),
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              ElevatedButton(
-                onPressed: _isLoading
-                    ? null
-                    : () {
-                        if (selectedMeeting != null) {
-                          _createAttendance("Present");
-                        }
-                      },
-                child: const Text('Present'),
-              ),
-              const SizedBox(width: 16),
-              ElevatedButton(
-                onPressed: _isLoading
-                    ? null
-                    : () {
-                        if (selectedMeeting != null) {
-                          _createAttendance("Absent");
-                        }
-                      },
-                child: const Text('Absent'),
-              ),
-            ],
+          ElevatedButton(
+            onPressed: () {
+              showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return AlertDialog(
+                    title: Text("Access Granted"),
+                    actions: <Widget>[
+                      TextButton(
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                          Navigator.pop(context);
+                        },
+                        child: Text("OK"),
+                      ),
+                    ],
+                  );
+                },
+              );
+            },
+            child: const Text('Grant Access'),
           ),
-        const SizedBox(width: 200)
+          const SizedBox(height: 200),
         ],
       ),
     );
